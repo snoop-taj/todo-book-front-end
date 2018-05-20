@@ -1,0 +1,14 @@
+<div class="mb-3">
+  <mat-card>
+    <mat-card-header>
+      <div mat-card-avatar class="fa fa-2x fa-fw fa-user-circle"></div>
+      <mat-card-title *ngIf="user">{{ user.fullName }}</mat-card-title>
+      <mat-card-subtitle>{{ todo.createdAt }}</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <p>
+        {{ todo.content}}
+      </p>
+    </mat-card-content>
+  </mat-card>
+</div>

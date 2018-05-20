@@ -1,0 +1,31 @@
+<div [@routerTransition]>
+    <app-page-header [heading]="'Todo'" [icon]="'fa fa-tasks fa-fw'"></app-page-header>
+    <div class="col-xl-12">
+        <button mat-raised-button color="primary" (click)="openAddTodoDialog()">Add Todo</button>
+        <div class="card mb-3">
+            <mat-table [dataSource]="dataSource">
+                <ng-container matColumnDef="id">
+                    <mat-header-cell *matHeaderCellDef> ID </mat-header-cell>
+                    <mat-cell *matCellDef="let todo"> {{todo.id}} </mat-cell>
+                </ng-container>
+                <mat-header-row *matHeaderRowDef="dispalyedColumns"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+            </mat-table>
+            <div class="card-body table-responsive">
+                <table class="table table-inverse">
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Author</th>
+                        <th>Content</th>
+                        <th>Created</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        <tr app-todo-single *ngFor="let todo of todos" [todo]="todo"></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

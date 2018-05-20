@@ -1,0 +1,16 @@
+.add-todo-section {
+    display: flex;
+    align-content: center;
+    align-items: center;
+    height: 60px;
+  }
+
+  .add-todo-form {
+    min-width: 150px;
+    max-width: 500px;
+    width: 100%;
+  }
+  
+  .add-todo-full-width {
+    width: 100%;
+  }

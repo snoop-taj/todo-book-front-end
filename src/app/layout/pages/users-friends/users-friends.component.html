@@ -1,0 +1,28 @@
+<div [@routerTransition]>
+    <app-page-header [heading]="'Users'" [icon]="'fa fa-user fa-fw'"></app-page-header>
+    <div class="col-xl-12">
+    <div class="card mb-3">
+        <div class="card-body table-responsive">
+                <table class="table table-inverse">
+                    <thead>
+                    <tr>
+                        <th>Full Name</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor= "let user of users">
+                        <td>{{ user.fullName }}</td>
+                        <td>{{ currentUser.isFriendOf(user) ? 'Friend' : 'Stranger' }}</td>
+                        <td>
+                            <button *ngIf="!currentUser.isFriendOf(user)" type="button" class="btn btn-info" (click)="addFriend(user)">Add</button>
+                            <button *ngIf="currentUser.isFriendOf(user)" type="button" class="btn btn-danger" (click)="removeFriend(user)">Remove</button>
+                        </td>
+                        </tr>
+                    </tbody>
+                </table>
+        </div>
+    </div>
+    </div>
+</div>

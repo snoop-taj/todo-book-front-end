@@ -1,0 +1,15 @@
+<!-- <div [@routerTransition]> -->
+  <!-- <app-page-header [heading]="'Todos'" [icon]="'fa fa-clock-o fa-fw'"></app-page-header> -->
+  <div class="row">
+     <div class="col-lg-12">
+        <div class="card card-default">
+            <div class="card-header">
+                <i class="fa fa-clock-o fa-fw"></i> Timeline
+            </div>
+            <div class="card-body">
+              <div app-public-todo-single *ngFor='let todo of todos' [todo]="todo"></div>
+            </div>
+        </div>
+    </div>
+  </div>
+<!-- </div> -->
