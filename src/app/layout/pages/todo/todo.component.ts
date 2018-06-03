@@ -1,11 +1,12 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, AfterViewInit } from '@angular/core';
 import { NetworkService } from '../../../shared';
 import { Todo, TODO_VISIBILITY_STATUS } from '../../../../entities/Todo';
 import { User } from '../../../../entities/User';
+import { TodoElement } from '../../../../entities/TodoElement';
 import { forEach } from '@angular/router/src/utils/collection';
 import * as moment from 'moment';
 import { routerTransition } from '../../../router.animations';
-import { MatDialog, MatSnackBar } from '@angular/material';
+import { MatDialog, MatSnackBar, MatTableDataSource, MatPaginator, MatSort } from '@angular/material';
 import { DialogService } from '../../../shared/services/dialog/dialog.service';
 import { DataSource } from '@angular/cdk/table';
 import { Observable } from 'rxjs/Observable';
@@ -17,11 +18,15 @@ import { fromPromise } from 'rxjs/observable/fromPromise';
   styleUrls: ['./todo.component.scss'],
   animations: [routerTransition()]
 })
-export class TodoComponent implements OnInit {
-
+export class TodoComponent implements OnInit, AfterViewInit {
   todos: Array<any>
-  dataSource: TodoDataSource
+  dataSource: MatTableDataSource<any>
   displayedColumns: Array<any>
+  user: User
+  loadingResult = true;
+
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
   
   constructor(
       private _network: NetworkService,
@@ -31,9 +36,9 @@ export class TodoComponent implements OnInit {
 
   async ngOnInit() {
     this.todos = await this.getTodo();
-    this.dataSource = new TodoDataSource(this.todos);
-    this.displayedColumns = ['id', 'userId', 'content', 'createdAt'];
-    console.log(this.dataSource)
+    this.dataSource = new MatTableDataSource();
+    this.dataSource.data = await this.getDataSourceElement()
+    this.ngAfterViewInit();
   }
 
   async getTodo() {
@@ -47,12 +52,43 @@ export class TodoComponent implements OnInit {
     }));
   }
 
+  async getDataSourceElement() {
+    this.displayedColumns = ['id', 'userName', 'content', 'createdAt'];
+    const todoElement: TodoElement[] = []
+    for (var todo of this.todos) {
+      const response = await this._network.request('get', `users/${todo.userId}`);
+      todoElement.push(new TodoElement({
+        id : todo.id,
+        userName: response['name'],
+        content: todo.content,
+        createdAt: todo.createdAt
+      }));
+    }
+    this.loadingResult = false;
+    return todoElement;
+  }
+
+  rowClicked(row: any): void {
+    console.log(row);
+  }
+
+  applyFilter(filterValue: string) {
+    filterValue = filterValue.trim();
+    filterValue = filterValue.toLowerCase();
+    this.dataSource.filter = filterValue;
+  }
+
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+  }
+
   openAddTodoDialog() {
     const dialogRef = this._dialog.openAddTodoDialog()
 
     dialogRef.afterClosed().subscribe(async result => {
 
-      if (typeof result !== 'undefined') {
+      if (result !== 'Cancel') {
         const response = await this._network.request('post', 'todo', {
           body: {
             content: result.content,
@@ -66,25 +102,13 @@ export class TodoComponent implements OnInit {
           userId: response['user_id'],
           createdAt: moment(response['created_at']).fromNow()
         }));
+        
+        this.dataSource.data = await this.getDataSourceElement()
 
-        this._snakeBar.open("Added a bew task!", "Cancel", {
+        this._snakeBar.open("Added a new task!", "Cancel", {
           duration: 3000
         });
       }
     });
-  }
-}
-
-export class TodoDataSource extends DataSource<any> {
-  constructor(public todo: Array<Todo>) {
-    super()
-  }
-
-  connect(): Observable<Todo[]> {
-    return Observable.create(this.todo);
-  }
-
-  disconnect() {
-
   }
 }

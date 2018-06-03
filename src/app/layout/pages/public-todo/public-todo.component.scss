@@ -1,0 +1,192 @@
+::ng-deep .timeline {
+    position: relative;
+    padding: 20px 0 20px;
+    list-style: none;
+}
+
+::ng-deep .timeline:before {
+    content: " ";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    width: 3px;
+    margin-left: -1.5px;
+    background-color: #eeeeee;
+}
+
+::ng-deep .timeline > li {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+::ng-deep .timeline > li:before,
+::ng-deep .timeline > li:after {
+    content: " ";
+    display: table;
+}
+
+::ng-deep .timeline > li:after {
+    clear: both;
+}
+
+::ng-deep .timeline > li:before,
+::ng-deep .timeline > li:after {
+    content: " ";
+    display: table;
+}
+
+::ng-deep .timeline > li:after {
+    clear: both;
+}
+
+::ng-deep .timeline > li > .timeline-panel {
+    float: left;
+    position: relative;
+    width: 46%;
+    padding: 20px;
+    border: 1px solid #d4d4d4;
+    border-radius: 2px;
+    -webkit-box-shadow: 0 1px 6px rgba(0,0,0,0.175);
+    box-shadow: 0 1px 6px rgba(0,0,0,0.175);
+}
+
+::ng-deep .timeline > li > .timeline-panel:before {
+    content: " ";
+    display: inline-block;
+    position: absolute;
+    top: 26px;
+    right: -15px;
+    border-top: 15px solid transparent;
+    border-right: 0 solid #ccc;
+    border-bottom: 15px solid transparent;
+    border-left: 15px solid #ccc;
+}
+
+::ng-deep .timeline > li > .timeline-panel:after {
+    content: " ";
+    display: inline-block;
+    position: absolute;
+    top: 27px;
+    right: -14px;
+    border-top: 14px solid transparent;
+    border-right: 0 solid #fff;
+    border-bottom: 14px solid transparent;
+    border-left: 14px solid #fff;
+}
+
+::ng-deep .timeline > li > .timeline-badge {
+    z-index: 100;
+    position: absolute;
+    top: 16px;
+    left: 50%;
+    width: 50px;
+    height: 50px;
+    margin-left: -25px;
+    border-radius: 50% 50% 50% 50%;
+    text-align: center;
+    font-size: 1.4em;
+    line-height: 50px;
+    color: #fff;
+    background-color: #999999;
+}
+
+::ng-deep .timeline > li.timeline-inverted > .timeline-panel {
+    float: right;
+}
+
+::ng-deep .timeline > li.timeline-inverted > .timeline-panel:before {
+    right: auto;
+    left: -15px;
+    border-right-width: 15px;
+    border-left-width: 0;
+}
+
+::ng-deep .timeline > li.timeline-inverted > .timeline-panel:after {
+    right: auto;
+    left: -14px;
+    border-right-width: 14px;
+    border-left-width: 0;
+}
+
+::ng-deep .timeline-badge.primary {
+    background-color: #2e6da4 !important;
+}
+
+::ng-deep .timeline-badge.success {
+    background-color: #3f903f !important;
+}
+
+::ng-deep .timeline-badge.warning {
+    background-color: #f0ad4e !important;
+}
+
+::ng-deep.timeline-badge.danger {
+    background-color: #d9534f !important;
+}
+
+::ng-deep .timeline-badge.info {
+    background-color: #5bc0de !important;
+}
+
+::ng-deep .timeline-title {
+    margin-top: 0;
+    color: inherit;
+}
+
+::ng-deep .timeline-body > p,
+::ng-deep .timeline-body > ul {
+    margin-bottom: 0;
+}
+
+::ng-deep .timeline-body > p + p {
+    margin-top: 5px;
+}
+
+.card {
+    border: none;
+}
+
+.spinner-container {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@media(max-width:767px) {
+    ::ng-deep ul.timeline:before {
+        left: 40px;
+    }
+
+    ::ng-deep ul.timeline > li > .timeline-panel {
+        width: calc(100% - 90px);
+        width: -moz-calc(100% - 90px);
+        width: -webkit-calc(100% - 90px);
+    }
+
+    ::ng-deep ul.timeline > li > .timeline-badge {
+        top: 16px;
+        left: 15px;
+        margin-left: 0;
+    }
+
+    ::ng-deep ul.timeline > li > .timeline-panel {
+        float: right;
+    }
+
+    ::ng-deep ul.timeline > li > .timeline-panel:before {
+        right: auto;
+        left: -15px;
+        border-right-width: 15px;
+        border-left-width: 0;
+    }
+
+    ::ng-deep ul.timeline > li > .timeline-panel:after {
+        right: auto;
+        left: -14px;
+        border-right-width: 14px;
+        border-left-width: 0;
+    }
+}

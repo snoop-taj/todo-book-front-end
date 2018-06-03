@@ -2,30 +2,36 @@
     <app-page-header [heading]="'Todo'" [icon]="'fa fa-tasks fa-fw'"></app-page-header>
     <div class="col-xl-12">
         <button mat-raised-button color="primary" (click)="openAddTodoDialog()">Add Todo</button>
-        <div class="card mb-3">
-            <mat-table [dataSource]="dataSource">
-                <ng-container matColumnDef="id">
-                    <mat-header-cell *matHeaderCellDef> ID </mat-header-cell>
-                    <mat-cell *matCellDef="let todo"> {{todo.id}} </mat-cell>
-                </ng-container>
-                <mat-header-row *matHeaderRowDef="dispalyedColumns"></mat-header-row>
-                <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
-            </mat-table>
-            <div class="card-body table-responsive">
-                <table class="table table-inverse">
-                    <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Author</th>
-                        <th>Content</th>
-                        <th>Created</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                        <tr app-todo-single *ngFor="let todo of todos" [todo]="todo"></tr>
-                    </tbody>
-                </table>
+        <div class="col-xl-12">
+            <mat-form-field>
+                <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+            </mat-form-field>
+        </div>
+            <div class="card mb-3">
+                <mat-table matSort matSortActive="createdAt" matSortDisableClear matSortDirection="asc" [dataSource]="dataSource">
+                    <ng-container matColumnDef="id">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header> # </mat-header-cell>
+                        <mat-cell *matCellDef="let element"> {{element.id}} </mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="userName">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header> User Name </mat-header-cell>
+                        <mat-cell *matCellDef="let element"> {{element.userName}} </mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="content">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header> Content </mat-header-cell>
+                        <mat-cell *matCellDef="let element"> {{element.content}} </mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="createdAt">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header disabledClear="true">  Created At </mat-header-cell>
+                        <mat-cell *matCellDef="let element"> {{element.createdAt}} </mat-cell>
+                    </ng-container>
+                    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                    <mat-row *matRowDef="let row; columns: displayedColumns;" (click) = "rowClicked(row)"></mat-row>
+                </mat-table>
             </div>
+        <mat-paginator [length]="5" [pageSize]="10" [pageSizeOptions]="[10, 25, 50]"></mat-paginator>
+        <div class="spinner-container" *ngIf="loadingResult">
+            <mat-spinner></mat-spinner>
         </div>
     </div>
 </div>

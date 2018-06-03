@@ -10,9 +10,11 @@ import * as moment from 'moment';
   styleUrls: ['./public-todo.component.scss'],
   animations: [routerTransition()]
 })
+
 export class PublicTodoComponent implements OnInit {
 
   todos: Array<any>
+  loadingResult = true
 
   constructor(private _network: NetworkService) { }
 
@@ -23,6 +25,7 @@ export class PublicTodoComponent implements OnInit {
   async getTodos() {
     const respone = await this._network.request('get', 'todos') as Array<any>;
 
+    this.loadingResult = false;
     return respone.map((item) => new Todo({
         id: item.id,
         content: item.content,
@@ -30,6 +33,10 @@ export class PublicTodoComponent implements OnInit {
         createdAt: moment(item.created_at).fromNow()
       })
     )
+  }
+
+  checkOdd(val: number) {
+    return val % 2 !== 0;
   }
 
 }

@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService, NetworkService } from '../../../shared';
 import { User } from '../../../../entities/User';
 import { routerTransition } from '../../../router.animations';
+import { UserElement } from '../../../../entities/UserElement';
+import { MatTableDataSource } from '@angular/material';
 
 @Component({
   selector: 'app-users-friends',
@@ -13,12 +15,16 @@ export class UsersFriendsComponent implements OnInit {
   
   currentUser: User
   users: User[]
+  dataSource: MatTableDataSource<any>
+  displayedColumns: Array<any>
 
   constructor(private _auth: AuthService, private _network: NetworkService) { }
 
   async ngOnInit() {
-    this.currentUser = await this._auth.fetchCurrentUserInfo()
+    this.currentUser = await this._auth.fetchCurrentUserInfo();
     this.users = await this.getUsersAndFriends();
+    this.dataSource = new MatTableDataSource();
+    this.dataSource.data = this.getUserElement();
   }
 
   async getUsersAndFriends()
@@ -39,12 +45,27 @@ export class UsersFriendsComponent implements OnInit {
       );
   }
 
+  getUserElement() {
+    this.displayedColumns = ['userName', 'status', 'actions'];
+    const userElement: UserElement[] = [];
+    for (let user of this.users) {
+      userElement.push(new UserElement({
+        id: user.id,
+        userName: user.fullName,
+        status: this.currentUser.isFriendOf(user) ? 'Friend' : 'Stranger'
+      }));
+    }
+    return userElement;
+  }
+
   async addFriend(user: User) {
     const response = await this._network.request('post', `users/${user.id}/add_friend`) as Array<any>
 
     if (response['success']) {
       this.currentUser.friends.push(user);
     }
+
+    this.dataSource.data = this.getUserElement();
   }
 
   async removeFriend(user: User) {
@@ -55,6 +76,8 @@ export class UsersFriendsComponent implements OnInit {
         i => i.id !== user.id
       );
     }
+
+    this.dataSource.data = this.getUserElement();
   }
 
 }

@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Todo } from '../../../../../entities/Todo';
 import { User } from '../../../../../entities/User';
 import { NetworkService } from '../../../../shared';
+import { MatTableDataSource } from '@angular/material';
 
 @Component({
   selector: '[app-todo-single]',
@@ -17,10 +18,8 @@ export class TodoSingleComponent implements OnInit {
   async ngOnInit() {
     this.user = await this.getUserDetail();
   }
-
   async getUserDetail() {
     const response = await this._network.request('get', `users/${this.todo.userId}`);
     return new User(response['name'], response['email']);
   }
-
 }

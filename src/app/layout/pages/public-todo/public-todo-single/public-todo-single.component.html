@@ -1,14 +1,14 @@
-<div class="mb-3">
-  <mat-card>
-    <mat-card-header>
-      <div mat-card-avatar class="fa fa-2x fa-fw fa-user-circle"></div>
-      <mat-card-title *ngIf="user">{{ user.fullName }}</mat-card-title>
-      <mat-card-subtitle>{{ todo.createdAt }}</mat-card-subtitle>
-    </mat-card-header>
-    <mat-card-content>
-      <p>
-        {{ todo.content}}
-      </p>
-    </mat-card-content>
-  </mat-card>
+<div [ngClass]="{'timeline-badge': true, 'success': odd}"><i class="fa fa-check"></i></div>
+<div class="timeline-panel">
+  <div class="timeline-heading">
+    <h4 class="timeline-title" *ngIf="user">
+        <span mat-card-avatar class="fa fa-2x fa-fw fa-user-circle"></span>
+      {{ user.fullName }}
+    </h4>
+    <p><small class="text-muted"><i class="fa fa-clock-o"></i> {{ todo.createdAt }}</small>
+    </p>
+  </div>
+  <div class="timeline-body">
+    <p>{{ todo.content}}</p>
+  </div>
 </div>

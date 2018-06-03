@@ -2,27 +2,25 @@
     <app-page-header [heading]="'Users'" [icon]="'fa fa-user fa-fw'"></app-page-header>
     <div class="col-xl-12">
     <div class="card mb-3">
-        <div class="card-body table-responsive">
-                <table class="table table-inverse">
-                    <thead>
-                    <tr>
-                        <th>Full Name</th>
-                        <th>Status</th>
-                        <th>Action</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor= "let user of users">
-                        <td>{{ user.fullName }}</td>
-                        <td>{{ currentUser.isFriendOf(user) ? 'Friend' : 'Stranger' }}</td>
-                        <td>
-                            <button *ngIf="!currentUser.isFriendOf(user)" type="button" class="btn btn-info" (click)="addFriend(user)">Add</button>
-                            <button *ngIf="currentUser.isFriendOf(user)" type="button" class="btn btn-danger" (click)="removeFriend(user)">Remove</button>
-                        </td>
-                        </tr>
-                    </tbody>
-                </table>
-        </div>
+        <mat-table [dataSource]="dataSource">
+            <ng-container matColumnDef="userName">
+                <mat-header-cell *matHeaderCellDef> Full Name</mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{element.userName}} </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="status">
+                <mat-header-cell *matHeaderCellDef> Status </mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{element.status}} </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="actions">
+                <mat-header-cell *matHeaderCellDef> Actions </mat-header-cell>
+                <mat-cell *matCellDef="let element">
+                        <button mat-raised-button color="primary" *ngIf="!currentUser.isFriendOf(element)" (click)="addFriend(element)">Add</button>
+                        <button mat-raised-button color="warn" *ngIf="currentUser.isFriendOf(element)" (click)="removeFriend(element)">Remove</button>
+                </mat-cell>
+            </ng-container>
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+        </mat-table>
     </div>
     </div>
 </div>

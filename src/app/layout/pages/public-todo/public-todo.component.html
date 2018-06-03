@@ -7,7 +7,9 @@
                 <i class="fa fa-clock-o fa-fw"></i> Timeline
             </div>
             <div class="card-body">
-              <div app-public-todo-single *ngFor='let todo of todos' [todo]="todo"></div>
+                <ul class="timeline">
+                  <li app-public-todo-single *ngFor='let todo of todos; let i = index' [todo]="todo" [index]="i" [ngClass]="{'timeline-inverted': checkOdd(i)}"></li>
+                </ul>
             </div>
         </div>
     </div>

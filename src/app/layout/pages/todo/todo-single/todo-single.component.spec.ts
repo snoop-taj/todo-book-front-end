@@ -1,9 +1,9 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { TodoSingleComponent } from './todo-single.component';
-import { NetworkService, AuthService } from '../../../shared';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterTestingModule } from '@angular/router/testing';
+import { NetworkService, AuthService } from '../../../../shared';
 
 describe('TodoSingleComponent', () => {
   let component: TodoSingleComponent;
