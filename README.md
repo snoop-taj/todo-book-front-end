@@ -1,4 +1,4 @@
-# SB Admin rewritten in Angular5 and Bootstrap 4
+# SB Admin in Angular5 and Bootstrap 4
 
 Simple Dashboard Admin App built using Angular 5 and Bootstrap 4
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.5.0.
