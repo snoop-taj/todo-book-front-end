@@ -4,7 +4,21 @@ import { TodoRoutingModule } from './todo-routing.module';
 import { TodoComponent } from './todo.component';
 import { TodoSingleComponent } from './todo-single/todo-single.component';
 import { PageHeaderModule } from '../../../shared';
-import { MatButtonModule, MatDialog, MatDialogModule, MatCardModule, MatSnackBar, MatSnackBarModule, MatTableModule, MatProgressSpinnerModule, MatPaginator, MatPaginatorModule, MatSortModule, MatFormFieldModule, MatInputModule } from '@angular/material';
+import {
+    MatButtonModule,
+    MatDialog,
+    MatDialogModule,
+    MatCardModule,
+    MatSnackBar,
+    MatSnackBarModule,
+    MatTableModule,
+    MatProgressSpinnerModule,
+    MatPaginator,
+    MatPaginatorModule,
+    MatSortModule,
+    MatFormFieldModule,
+    MatInputModule
+} from '@angular/material';
 
 @NgModule({
     imports: [
@@ -22,4 +36,4 @@ import { MatButtonModule, MatDialog, MatDialogModule, MatCardModule, MatSnackBar
     ],
     declarations: [TodoComponent, TodoSingleComponent],
 })
-export class TodoModule {}
+export class TodoModule { }

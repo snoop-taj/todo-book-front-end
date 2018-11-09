@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Todo } from '../../../../../entities/Todo';
 import { NetworkService } from '../../../../shared';
 import { User } from '../../../../../entities/User';
+import { UserService } from '../../../../shared/services/user/user.service';
 
 @Component({
   selector: '[app-public-todo-single]',
@@ -14,16 +15,11 @@ export class PublicTodoSingleComponent implements OnInit {
   user: User
   odd: boolean
 
-  constructor(private _network: NetworkService) { }
+  constructor(private _user: UserService) { }
 
   async ngOnInit() {
-    this.user = await this.getUser();
+    this.user = await this._user.getUserDetails(this.todo.userId);
     this.odd = this.checkOdd(this.index);
-  }
-
-  async getUser() {
-    const response = await this._network.request('get', `users/${this.todo.userId}`) as Array<any>
-    return new User(response['name'], response['email'], null, response['id']);
   }
 
   checkOdd(val: number) {

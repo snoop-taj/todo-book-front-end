@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, ViewChild, AfterViewInit } from '@angular/core';
-import { NetworkService } from '../../../shared';
+import { NetworkService, AuthService } from '../../../shared';
 import { Todo, TODO_VISIBILITY_STATUS } from '../../../../entities/Todo';
 import { User } from '../../../../entities/User';
 import { TodoElement } from '../../../../entities/TodoElement';
@@ -11,6 +11,7 @@ import { DialogService } from '../../../shared/services/dialog/dialog.service';
 import { DataSource } from '@angular/cdk/table';
 import { Observable } from 'rxjs/Observable';
 import { fromPromise } from 'rxjs/observable/fromPromise';
+import { SocketsService , TodoCreatedEvent } from '../../../shared/services/sockets/sockets.service';
 
 @Component({
   selector: 'app-todo',
@@ -31,8 +32,14 @@ export class TodoComponent implements OnInit, AfterViewInit {
   constructor(
       private _network: NetworkService,
       private _dialog: DialogService,
-      private _snakeBar: MatSnackBar
-  ) {}
+      private _snakeBar: MatSnackBar,
+      private _auth: AuthService,
+      private _sockets: SocketsService
+  ) {
+    this._sockets.todoCreatedEventFired.subscribe({
+      next: this.handleTodoCreatedEvent.bind(this)
+    });
+  }
 
   async ngOnInit() {
     this.todos = await this.getTodo();
@@ -42,6 +49,7 @@ export class TodoComponent implements OnInit, AfterViewInit {
   }
 
   async getTodo() {
+    this._auth.broadcase();
     const response = await this._network.request('get', 'todo') as Array<any>;
 
     return response.map((item) => new Todo({
@@ -110,5 +118,19 @@ export class TodoComponent implements OnInit, AfterViewInit {
         });
       }
     });
+  }
+
+  async handleTodoCreatedEvent(event: TodoCreatedEvent) {
+    console.log('todo created event', event);
+    if (!this.todos.find(p => p.id === event.todo.id)) {
+      this.todos.unshift(
+        new Todo({
+          id: event.todo['id'],
+          content: event.todo['content'],
+          userId: event.todo['user_id'],
+          createdAt: moment(event.todo['created_at']).fromNow()
+        })
+      )
+    }
   }
 }

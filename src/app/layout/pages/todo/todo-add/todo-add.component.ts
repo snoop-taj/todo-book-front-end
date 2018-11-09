@@ -36,6 +36,4 @@ export class TodoAddComponent implements OnInit {
   onCloseCancel() {
     this.thisDialogRef.close('Cancel');
   }
-
-
 }

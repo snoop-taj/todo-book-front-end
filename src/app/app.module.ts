@@ -11,6 +11,8 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AuthGuard, NetworkService, AuthService } from './shared';
+import { SocketsService } from './shared/services/sockets/sockets.service';
+import { UserService } from './shared/services/user/user.service';
 import { DialogService } from './shared/services/dialog/dialog.service';
 import { MatDialogModule, MatCardModule, MatButtonModule, MatSlideToggleModule, MatFormFieldModule, MatInputModule } from '@angular/material';
 import { TodoAddComponent } from './layout/pages/todo/todo-add/todo-add.component';
@@ -47,7 +49,7 @@ export function createTranslateLoader(http: HttpClient) {
         FormsModule
     ],
     declarations: [AppComponent, TodoAddComponent],
-    providers: [AuthGuard, AuthService, NetworkService, DialogService],
+    providers: [AuthGuard, AuthService, NetworkService, SocketsService, UserService, DialogService],
     bootstrap: [AppComponent],
     entryComponents: [TodoAddComponent]
 })

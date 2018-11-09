@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { User } from '../../../../entities/User';
 import { Router } from '@angular/router';
+import { SocketsService } from '../sockets/sockets.service';
 
 const BACKEND_DOMAIN = 'http://127.0.0.1';
 
@@ -12,7 +13,8 @@ export class AuthService {
 
   constructor(
     private _http : HttpClient,
-    private router: Router
+    private _router: Router,
+    private _socket: SocketsService
   ) { }
 
   register(user : User) {
@@ -43,7 +45,7 @@ export class AuthService {
     } catch(error) {
       if (error.status === 401) {
         localStorage.removeItem('isLoggedin');
-        this.router.navigate(['/login']);
+        this._router.navigate(['/login']);
       }
       return false;
     }
@@ -68,10 +70,14 @@ export class AuthService {
     } catch (error) {
       if (error.status === 401) {
         localStorage.removeItem('isLoggedin');
-        this.router.navigate(['/login']);
+        this._router.navigate(['/login']);
       }
       throw error;
     }
+  }
+
+  broadcase() {
+    this._socket.setupWithToken(this.token, this.currentUser);
   }
 
   get token() {
