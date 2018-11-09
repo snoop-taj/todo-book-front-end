@@ -1,15 +1,6 @@
-# SB Admin rewritten in Angular5 and Bootstrap 4
+# SB Admin in Angular5 and Bootstrap 4
 
 Simple Dashboard Admin App built using Angular 5 and Bootstrap 4
-
-This project is a port of the famous Free Admin Bootstrap Theme [SB Admin v5.0](http://startbootstrap.com/template-overviews/sb-admin-2/) to Angular5 Theme.
-
-Powered by [StartAngular](http://startangular.com/) & [StrapUI](http://strapui.com/)
-
-## [Demo](http://rawgit.com/start-angular/SB-Admin-BS4-Angular-5/master/dist/)
-
-### [Donate](https://www.paypal.me/nitinkrmr/5)
-
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.5.0.
 
 ### Introduction
